@@ -58,7 +58,7 @@ router.post("/post", async (req, res, next) => {
         email: req.body.email,
         password: req.body.password,
         phone: req.body.phone,
-        DOB: new Date(req.body.DOB),
+        DOB: req.body.DOB,
       },
     });
     res.send("Account create sucessfully...");
