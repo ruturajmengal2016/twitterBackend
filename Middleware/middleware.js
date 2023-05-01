@@ -1,16 +1,8 @@
 const errorHandler = (err, req, res, next) => {
-  switch (res.statusCode) {
-    case 400:
-      res.send(err.message);
-      break;
-    case 404:
-      res.send("Hi");
-      break;
-    case 500:
-      res.send("Internal Server Error!");
-    default:
-      next();
+  if (err) {
+    res.send(err.message);
   }
+  next();
 };
 
 module.exports = errorHandler;
