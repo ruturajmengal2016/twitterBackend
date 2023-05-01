@@ -43,7 +43,19 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/create", async (req, res, next) => {
   try {
-    res.send("done");
+    const user = await prisma.twitter_user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
+    if (user) {
+      res.status(400);
+      throw new Error("This email is already registered!");
+    }
+    await prisma.twitter_user.create({
+      data: req.body,
+    });
+    res.send("create successfully...");
   } catch (error) {
     next(error);
   }
