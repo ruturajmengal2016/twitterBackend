@@ -53,12 +53,7 @@ router.post("/post", async (req, res, next) => {
       throw new Error("This email is already registered!");
     }
     await prisma.twitter_user.create({
-      data: {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        phone: req.body.phone
-      },
+      data: req.body,
     });
     res.send("Account create sucessfully...");
   } catch (error) {

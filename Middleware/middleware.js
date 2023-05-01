@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
       res.send(err.message);
       break;
     case 404:
-      res.send("Not Found");
+      res.send(err);
       break;
     case 500:
       res.send("Internal Server Error!");
