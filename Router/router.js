@@ -3,6 +3,15 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const fs = require("fs");
+const joi = require("joi");
+
+const schema = joi.object({
+  name: joi.string().min(5).required(),
+  email: joi.string().email().required(),
+  password: joi.string().required().min(8),
+  phone: joi.string().required().max(10),
+  DOB: joi.date(),
+});
 
 router.get("/tweetsdata", async (req, res, next) => {
   try {
@@ -43,19 +52,15 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/create", async (req, res, next) => {
   try {
-    const user = await prisma.twitter_user.findFirst({
-      where: {
-        email: req.body.email,
-      },
-    });
-    if (user) {
+    const { error, value } = schema.validate(req.body);
+    if (error) {
       res.status(400);
-      throw new Error("This email is already registered!");
+      throw new Error(error.details[0].message);
     }
     await prisma.twitter_user.create({
-      data: req.body,
+      data: value,
     });
-    res.send("create successfully...");
+    res.send("register successfully...")
   } catch (error) {
     next(error);
   }
