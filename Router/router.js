@@ -43,7 +43,7 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/create", async (req, res, next) => {
   try {
-    const user = await prisma.twitter_user.findUnique({
+    const user = await prisma.twitter_user.findFirst({
       where: {
         email: req.body.email,
       },
