@@ -17,7 +17,10 @@ router.get("/tweetsdata", async (req, res, next) => {
   try {
     const tweets = fs.createReadStream("./Data/tweets.json");
     tweets.on("data", (chunk) => {
-      tweets.pipe(res.send(chunk));
+      res.send(chunk);
+    });
+    tweets.on("end", () => {
+      res.end();
     });
   } catch (error) {
     next(error);
@@ -27,7 +30,10 @@ router.get("/userData", async (req, res, next) => {
   try {
     const userTweets = fs.createReadStream("./Data/users.json");
     userTweets.on("data", (chunk) => {
-      userTweets.pipe(res.send(chunk));
+      res.send(chunk);
+    });
+    userTweets.on("end", () => {
+      res.end();
     });
   } catch (error) {
     next(error);
