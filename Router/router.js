@@ -50,7 +50,7 @@ router.post("/login", async (req, res, next) => {
       res.status(400);
       throw new Error("Sorry, You dont't have any account!");
     }
-    res.send(user);
+    res.send(true);
   } catch (error) {
     next(error);
   }
